@@ -21,7 +21,7 @@ on:
       - MOSIP*
 
 jobs:
-  build-maven-data-share:
+  build-maven-kernel-bio-converter:
     uses: mosip/kattu/.github/workflows/maven-build.yml@master
     with:
       SERVICE_LOCATION: kernel-bio-converter
