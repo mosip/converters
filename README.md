@@ -66,6 +66,3 @@ Default channel is HTTP (POST)
 | MOS-CNV-002 | Conversion target format not supported|
 | MOS-CNV-003 | Invalid source value|
 | MOS-CNV-500 | Technical Error|
-
-
-
