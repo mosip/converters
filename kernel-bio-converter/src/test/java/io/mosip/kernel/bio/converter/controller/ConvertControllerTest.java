@@ -482,7 +482,7 @@ public class ConvertControllerTest {
 	public void t013ConvertTest() throws Exception {
 =======
 	@WithUserDetails("reg-officer")
-	public void t013ConvertTest() // 
+	public void t013ConvertTest() 
 			throws Exception {
 >>>>>>> 75a80aa ([MOSIP-33316])
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
