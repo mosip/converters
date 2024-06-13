@@ -17,13 +17,13 @@ on:
       - '!release-branch'
       - master
       - 1.*
-      - develop
+      - develop*
       - MOSIP*
       - release*
 
 jobs:
   build-maven-kernel-bio-converter:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: kernel-bio-converter
       BUILD_ARTIFACT: kernel-bio-converter
@@ -37,7 +37,7 @@ jobs:
   publish_to_nexus:
     if: "${{ !contains(github.ref, 'master') && github.event_name != 'pull_request' && github.event_name != 'release' && github.event_name != 'prerelease' && github.event_name != 'publish' }}"
     needs: build-maven-kernel-bio-converter
-    uses: mosip/kattu/.github/workflows/maven-publish-to-nexus.yml@master
+    uses: mosip/kattu/.github/workflows/maven-publish-to-nexus.yml@master-java21
     with:
       SERVICE_LOCATION: kernel-bio-converter
     secrets:
@@ -58,7 +58,7 @@ jobs:
             BUILD_ARTIFACT: 'kernel-bio-converter'
       fail-fast: false
     name: ${{ matrix.SERVICE_NAME }}
-    uses: mosip/kattu/.github/workflows/docker-build.yml@master
+    uses: mosip/kattu/.github/workflows/docker-build.yml@master-java21
     with:
       SERVICE_LOCATION: ${{ matrix.SERVICE_LOCATION }}
       SERVICE_NAME: ${{ matrix.SERVICE_NAME }}
@@ -72,7 +72,7 @@ jobs:
   sonar_analysis:
     needs: build-maven-kernel-bio-converter
     if: "${{  github.event_name != 'pull_request' }}"
-    uses: mosip/kattu/.github/workflows/maven-sonar-analysis.yml@master
+    uses: mosip/kattu/.github/workflows/maven-sonar-analysis.yml@master-java21
     with:
       SERVICE_LOCATION: kernel-bio-converter
       PROJECT_KEY: 'mosip_kernel-bio-converter'

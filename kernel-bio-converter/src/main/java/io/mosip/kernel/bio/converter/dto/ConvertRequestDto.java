@@ -26,6 +26,8 @@ public class ConvertRequestDto {
     @NotBlank(message = "TargetFormat code can not be blank")
     @NotEmpty(message = "TargetFormat code can not be empty")
     public String targetFormat;
+	@SuppressWarnings({ "java:S1104" })
     public Map<String, String> sourceParameters;
+	@SuppressWarnings({ "java:S1104" })
     public Map<String, String> targetParameters;
 }
