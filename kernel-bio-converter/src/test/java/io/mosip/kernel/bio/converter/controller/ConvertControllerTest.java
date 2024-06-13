@@ -34,7 +34,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 /**
  * Convert Handler Controller Test
- *
+ * <p>
+ * This class contains integration tests for the Convert Controller
+ * functionality. It covers various scenarios related to converting biometric
+ * data from one format to another.
+ * </p>
+ * <p>
+ * Each test method focuses on different aspects of the conversion process,
+ * including validation of input data, handling of different biometric formats,
+ * and ensuring correct transformation to target formats.
+ * </p>
  *
  * @author Janardhan B S
  * @since 1.0.0
@@ -51,6 +60,9 @@ public class ConvertControllerTest {
 	private RequestWrapper<ConvertRequestDto> convertRequestDto = new RequestWrapper<ConvertRequestDto>();
 	private ObjectMapper mapper;
 
+	/**
+	 * Set up method to initialize ObjectMapper and default values for test cases.
+	 */
 	@Before
 	public void setUp() {
 		mapper = new ObjectMapper();
@@ -59,8 +71,10 @@ public class ConvertControllerTest {
 		convertRequestDto.setVersion("1.0");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Null
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto is null.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -77,8 +91,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-500");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Values Null or Empty
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto values are
+	 * null or empty.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -95,8 +112,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-500");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Source Null
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto source format
+	 * is null or empty.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -114,9 +134,12 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-003");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Source Value Wrong (ISO19794_4_2011,
-	 * ISO19794_5_2011, ISO19794_6_2011)
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto source format
+	 * is incorrect. wrong values other than (ISO19794_4_2011, ISO19794_5_2011,
+	 * ISO19794_6_2011)
+	 * 
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -133,8 +156,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-003");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Target Value null
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto target format
+	 * is null or empty.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -151,11 +177,14 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-004");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Target Value Wrong (IMAGE/JPEG,
-	 * IMAGE/PNG) Current Working Future Implementation (ISO19794_4_2011_JPEG,
-	 * ISO19794_5_2011_JPEG, ISO19794_6_2011_JPEG, ISO19794_4_2011_PNG,
-	 * ISO19794_5_2011_PNG, ISO19794_6_2011_PNG)
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto target format
+	 * is incorrect other than (IMAGE/JPEG, IMAGE/PNG) Current Working Future
+	 * Implementation (ISO19794_4_2011_JPEG, ISO19794_5_2011_JPEG,
+	 * ISO19794_6_2011_JPEG, ISO19794_4_2011_PNG, ISO19794_5_2011_PNG,
+	 * ISO19794_6_2011_PNG)
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -173,8 +202,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-004");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Request Value not null or empty
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Request Value
+	 * not null or empty.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -191,8 +223,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-005");
 	}
 
-	/*
-	 * test Null or Empty ConvertRequestDto Request Value not base64UrlEncoded
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Request Value
+	 * not base64UrlEncoded.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -210,8 +245,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-006");
 	}
 
-	/*
-	 * test Source not valid ISO ISO19794_4_2011
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Source not
+	 * valid ISO ISO19794_4_2011.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -229,8 +267,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-008");
 	}
 
-	/*
-	 * test Source not valid ISO ISO19794_5_2011
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Source not
+	 * valid ISO ISO19794_5_2011.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -248,8 +289,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-009");
 	}
 
-	/*
-	 * test Source not valid ISO ISO19794_6_2011
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Source not
+	 * valid ISO ISO19794_6_2011.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -267,9 +311,12 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-010");
 	}
 
-	/*
-	 * Target Format(ISO19794_6_2011_JPEG) Not Supported For the Given Source
-	 * Format(ISO19794_6_2011)
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Target
+	 * Format(ISO19794_6_2011_JPEG) Not Supported For the Given Source
+	 * Format(ISO19794_6_2011).
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -287,8 +334,11 @@ public class ConvertControllerTest {
 						500, null, "MOS-CNV-004");
 	}
 
-	/*
-	 * get Finger (ISO19794_4_2011) to JPEG
+	/**
+	 * Integration test for converting biometric data from ISO19794_4_2011 format to
+	 * JPEG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -307,8 +357,11 @@ public class ConvertControllerTest {
 				200, SourceFormatCode.ISO19794_4_2011, TargetFormatCode.IMAGE_JPEG.getCode());
 	}
 
-	/*
-	 * get Finger (ISO19794_4_2011) to PNG
+	/**
+	 * Integration test for converting biometric data from ISO19794_4_2011 format to
+	 * PNG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -326,13 +379,15 @@ public class ConvertControllerTest {
 				200, SourceFormatCode.ISO19794_4_2011, TargetFormatCode.IMAGE_PNG.getCode());
 	}
 
-	/*
-	 * get Face (ISO19794_5_2011) to JPEG
+	/**
+	 * Integration test for converting biometric data from ISO19794_5_2011 format to
+	 * JPEG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
-	public void t013ConvertTest() 
-			throws Exception {
+	public void t013ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
 		String req = "{" + "\"values\":{" + "\"Face\": \"" + bioData + "\"" + "},"
@@ -346,14 +401,16 @@ public class ConvertControllerTest {
 				200, SourceFormatCode.ISO19794_5_2011, TargetFormatCode.IMAGE_PNG.getCode());
 	}
 
-	/*
-	 * get Face (ISO19794_5_2011) to PNG
+	/**
+	 * Integration test for converting biometric data from ISO19794_5_2011 format to
+	 * PNG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
 	@SuppressWarnings({ "java:S4144" })
-	public void t0131ConvertTest() 
-			throws Exception {
+	public void t0131ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
 		String req = "{" + "\"values\":{" + "\"Face\": \"" + bioData + "\"" + "},"
@@ -367,8 +424,11 @@ public class ConvertControllerTest {
 				200, SourceFormatCode.ISO19794_5_2011, TargetFormatCode.IMAGE_PNG.getCode());
 	}
 
-	/*
-	 * get Iris (ISO19794_6_2011) to JPEG
+	/**
+	 * Integration test for converting biometric data from ISO19794_6_2011 format to
+	 * JPEG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
@@ -388,8 +448,11 @@ public class ConvertControllerTest {
 				200, SourceFormatCode.ISO19794_6_2011, TargetFormatCode.IMAGE_JPEG.getCode());
 	}
 
-	/*
-	 * get Iris (ISO19794_6_2011) to PNG
+	/**
+	 * Integration test for converting biometric data from ISO19794_6_2011 format to
+	 * PNG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
 	@WithUserDetails("reg-officer")
