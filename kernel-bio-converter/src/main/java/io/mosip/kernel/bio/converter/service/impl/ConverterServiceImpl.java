@@ -85,8 +85,7 @@ public class ConverterServiceImpl implements IConverterApi {
 
 	@SuppressWarnings({ "java:S1172", "java:S6208" })
 	private String convertFingerIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
-			Map<String, String> targetParameters)
-			throws ConversionException {
+			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
 		ConvertRequestDto requestDto = new ConvertRequestDto();
@@ -195,8 +194,7 @@ public class ConverterServiceImpl implements IConverterApi {
 
 	@SuppressWarnings({ "java:S1172" })
 	private String convertIrisIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
-			Map<String, String> targetParameters)
-			throws ConversionException {
+			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
 		ConvertRequestDto requestDto = new ConvertRequestDto();
