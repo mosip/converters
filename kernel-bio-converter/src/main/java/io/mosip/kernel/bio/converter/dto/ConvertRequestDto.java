@@ -1,6 +1,7 @@
 package io.mosip.kernel.bio.converter.dto;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Data Transfer Object for conversion requests in the bio converter service.
@@ -35,6 +37,7 @@ import lombok.Data;
  */
 
 @Data
+@ToString
 public class ConvertRequestDto {
 	/**
 	 * A map of values required for the conversion. The map must contain at least
@@ -73,4 +76,26 @@ public class ConvertRequestDto {
 	 */
 	@SuppressWarnings({ "java:S1104" })
 	public Map<String, String> targetParameters;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		ConvertRequestDto that = (ConvertRequestDto) o;
+		return Objects.equals(values, that.values) && Objects.equals(sourceFormat, that.sourceFormat)
+				&& Objects.equals(targetFormat, that.targetFormat)
+				&& Objects.equals(sourceParameters, that.sourceParameters)
+				&& Objects.equals(targetParameters, that.targetParameters);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(values, sourceFormat, targetFormat, sourceParameters, targetParameters);
+	}
+
+	public boolean canEqual(Object other) {
+		return other instanceof ConvertRequestDto;
+	}
 }
