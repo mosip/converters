@@ -86,8 +86,8 @@
 		<mosip.biometrics.util.version>1.2.1-SNAPSHOT</mosip.biometrics.util.version>
 		<!-- Auth adapter remove   -->
 
-		<sonar.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java/**</sonar.exclusions>
-		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java/**</sonar.coverage.exclusions>
+		<sonar.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/AuditManagerBootApplication.java</sonar.exclusions>
+		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/AuditManagerBootApplication.java</sonar.coverage.exclusions>
 		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
 
 	</properties>
