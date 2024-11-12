@@ -1,36 +1,33 @@
 package io.mosip.kernel.bio.converter.controller;
 
-import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
-import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-
-import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
-
 import io.mosip.kernel.bio.converter.TestBootApplication;
+import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
+import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
 import io.mosip.kernel.bio.converter.util.ConverterDataUtil;
 import io.mosip.kernel.core.http.RequestWrapper;
-
-import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Convert Handler Controller Test
@@ -77,7 +74,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t001ConvertTest() throws Exception {
 		String req = "{" + "\"values\": null," + "\"sourceFormat\":null," + "\"targetFormat\":null,"
 				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
@@ -98,7 +95,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t002ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "}," + "\"sourceFormat\":\"ISO19794_4_2011\","
 				+ "\"targetFormat\":\"IMAGE/JPEG\"," + "\"sourceParameters\":{" + "\"key\":\"value\"" + "},"
@@ -119,7 +116,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0030ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"values\"" + "}," + "\"sourceFormat\":\" \","
 				+ "\"targetFormat\":\"string\"," + "\"sourceParameters\":{" + "\"key\":\"value\"" + "},"
@@ -142,7 +139,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0031ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"values\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_3_2011\"," + "\"targetFormat\":\"string\"," + "\"sourceParameters\":{"
@@ -163,7 +160,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0040ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"values\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"\"," + "\"sourceParameters\":{"
@@ -187,7 +184,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0041ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"values\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEGLL\","
@@ -209,7 +206,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t005ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"\"" + "}," + "\"sourceFormat\":\"ISO19794_4_2011\","
 				+ "\"targetFormat\":\"IMAGE/JPEG\"," + "\"sourceParameters\":{" + "\"key\":\"value\"" + "},"
@@ -230,7 +227,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t006ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"12SGVsbGxyz8gd29ybGQ=\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
@@ -252,7 +249,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t008ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"aGVsbG8gaG93IGFyZSB5b3U\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
@@ -274,7 +271,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t009ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"aGVsbG8gaG93IGFyZSB5b3U\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_5_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
@@ -296,7 +293,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t010ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"aGVsbG8gaG93IGFyZSB5b3U\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_6_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
@@ -319,7 +316,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t011ConvertTest() throws Exception {
 		String req = "{" + "\"values\":{" + "\"Left Thumb\": \"aGVsbG8gaG93IGFyZSB5b3U\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_6_2011\"," + "\"targetFormat\":\"ISO19794_6_2011/JPEG\","
@@ -341,7 +338,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t012ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/finger.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
@@ -364,7 +361,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0121ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/finger.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
@@ -386,7 +383,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t013ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
@@ -408,7 +405,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	@SuppressWarnings({ "java:S4144" })
 	public void t0131ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
@@ -431,7 +428,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t014ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/iris.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
@@ -455,7 +452,7 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
-	@WithUserDetails("reg-officer")
+	@WithMockUser("reg-officer")
 	public void t0141ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/iris.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
