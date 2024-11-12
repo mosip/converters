@@ -50,7 +50,7 @@ import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
  * method security.
  * </p>
  * 
- * @author Janardan B S
+ * @author Janardhan B S
  * @since 1.0.0
  */
 
