@@ -1,14 +1,20 @@
 package io.mosip.kernel.bio.converter.controller;
 
-import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
-import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,21 +22,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-
-import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
-
 import io.mosip.kernel.bio.converter.TestBootApplication;
+import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
+import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
 import io.mosip.kernel.bio.converter.util.ConverterDataUtil;
 import io.mosip.kernel.core.http.RequestWrapper;
-
-import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Convert Handler Controller Test
