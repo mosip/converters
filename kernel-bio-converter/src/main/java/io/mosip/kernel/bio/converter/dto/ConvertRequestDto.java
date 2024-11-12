@@ -77,6 +77,23 @@ public class ConvertRequestDto {
 	@SuppressWarnings({ "java:S1104" })
 	public Map<String, String> targetParameters;
 
+	public ConvertRequestDto() {
+		super();
+	}
+
+	public ConvertRequestDto(
+			@NotNull(message = "Values code can not be null") @Size(min = 1, message = "Minimum one entry required") Map<String, String> values,
+			@NotNull(message = "SourceFormat code can not be null") @NotBlank(message = "SourceFormat code can not be blank") @NotEmpty(message = "SourceFormat code can not be empty") String sourceFormat,
+			@NotNull(message = "TargetFormat code can not be null") @NotBlank(message = "TargetFormat code can not be blank") @NotEmpty(message = "TargetFormat code can not be empty") String targetFormat,
+			Map<String, String> sourceParameters, Map<String, String> targetParameters) {
+		super();
+		this.values = values;
+		this.sourceFormat = sourceFormat;
+		this.targetFormat = targetFormat;
+		this.sourceParameters = sourceParameters;
+		this.targetParameters = targetParameters;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -98,4 +115,5 @@ public class ConvertRequestDto {
 	public boolean canEqual(Object other) {
 		return other instanceof ConvertRequestDto;
 	}
+
 }

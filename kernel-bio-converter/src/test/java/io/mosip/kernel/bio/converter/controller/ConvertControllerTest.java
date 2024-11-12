@@ -1,36 +1,39 @@
 package io.mosip.kernel.bio.converter.controller;
 
-import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
-import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import io.mosip.kernel.bio.converter.TestBootApplication;
+import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
+import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
+import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
+import io.mosip.kernel.bio.converter.exception.ConversionException;
 import io.mosip.kernel.bio.converter.util.ConverterDataUtil;
 import io.mosip.kernel.core.http.RequestWrapper;
-
-import java.io.FileInputStream;
-import java.nio.charset.StandardCharsets;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
  * Convert Handler Controller Test
@@ -358,6 +361,29 @@ public class ConvertControllerTest {
 	}
 
 	/**
+	 * Integration test for converting biometric data from ISO19794_4_2011 with WSQ image format to
+	 * JPEG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
+	 */
+	@Test
+	@WithUserDetails("reg-officer")
+	public void t012ConvertTest_WSQ() throws Exception {
+		FileInputStream fis = new FileInputStream("src/test/resources/finger_wsq.txt");
+		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
+		String req = "{" + "\"values\":{" + "\"Left IndexFinger\": \"" + bioData + "\"" + "},"
+				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
+				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
+				+ "}" + "}";
+		convertRequestDto.setRequest(mapper.readValue(req, ConvertRequestDto.class));
+
+		ConverterDataUtil.checkResponse(
+				mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
+						.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
+				200, SourceFormatCode.ISO19794_4_2011, TargetFormatCode.IMAGE_JPEG.getCode());
+	}
+
+	/**
 	 * Integration test for converting biometric data from ISO19794_4_2011 format to
 	 * PNG image format.
 	 *
@@ -469,5 +495,21 @@ public class ConvertControllerTest {
 				mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
 				200, SourceFormatCode.ISO19794_6_2011, TargetFormatCode.IMAGE_PNG.getCode());
+	}
+	
+	@Test
+	@WithUserDetails("reg-officer")
+	public void t004ConvertTest_invalidSourceFormat() throws Exception {
+	    Map<String, String> values = Map.of("key1", "validData");
+
+	    convertRequestDto.setRequest(new ConvertRequestDto(values, "INVALID_FORMAT", "TARGET_FORMAT", Map.of(), Map.of()));
+	    String requestContent = mapper.writeValueAsString(convertRequestDto);
+
+	    mockMvc.perform(post("/convert")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(requestContent))
+	            .andExpect(status().isInternalServerError())
+	            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConversionException))
+	            .andExpect(jsonPath("$.errors[0].errorCode").value("MOS-CNV-003"));
 	}
 }
