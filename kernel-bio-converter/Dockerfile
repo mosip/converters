@@ -64,7 +64,7 @@ COPY ./target/kernel-bio-converter-*.jar kernel-bio-converter.jar
 RUN chown -R ${container_user}:${container_user} /home/${container_user}
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
-EXPOSE 8089
+EXPOSE 8079
 CMD if [ "$is_glowroot_env" = "present" ]; then \
     wget -q --show-progress "${artifactory_url_env}"/artifactory/libs-release-local/io/mosip/testing/glowroot.zip ; \
     unzip glowroot.zip ; \
