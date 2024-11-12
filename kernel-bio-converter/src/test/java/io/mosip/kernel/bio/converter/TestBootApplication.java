@@ -1,11 +1,14 @@
 package io.mosip.kernel.bio.converter;
 
-import io.mosip.kernel.bio.converter.config.TestSecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import io.mosip.kernel.bio.converter.config.TestSecurityConfig;
 
 /**
  * Main Spring Boot application class for testing purposes.
@@ -31,7 +34,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 		"${mosip.auth.adapter.impl.basepackage}, io.mosip.kernel.bio.*" }, exclude = {
 				DataSourceAutoConfiguration.class })
 @EnableAsync
-@Import(TestSecurityConfig.class)
+@Import(io.mosip.kernel.bio.converter.config.TestSecurityConfig.class)
+@ComponentScan(
+	    basePackages = "io.mosip.kernel",
+	    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {io.mosip.kernel.auth.defaultadapter.config.SecurityConfig.class})
+	)
 public class TestBootApplication {
 
 	/**
