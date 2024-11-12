@@ -106,7 +106,6 @@ Method: POST
 
 | Property              | Description                                                                      |
 | ----------------------| ------------                                                                     |
-| values 					      | key-value pairs, with base64 url encoded data                                    |
 | sourceFormat 			    | Http mime types, ISO formats [ISO19794_4_2011, ISO19794_5_2011, ISO19794_6_2011] |
 | sourceParameters 		  | key-value pairs [IMAGE/JPEG, IMAGE/PNG]                                          |
 | targetFormat 			    | Http mime types, ISO formats                                                     |
@@ -132,26 +131,27 @@ Method: POST
 }
 ```
 
-| Property | Description |
-| -------- | ------------|
-| response | key-value pairs, with base64 url encoded converted data |
+| **Property** | **Description**                                            |
+| :----------- | :--------------------------------------------------------- |
+| response     | key-value pairs, with base64 url encoded converted data    |
+
 
 ## Error-codes:
 
-|     Code    |          Description                  	                                                    |
-| ------------| --------------------------------------------------------------------------------------------|
-| MOS-CNV-001 | Input Source Request may be null or Source Format may be null or Target Format may be null	|
-| MOS-CNV-002 | Invalid Request Value	                                                                      |
-| MOS-CNV-003 | Invalid Source Value or Source Format not supported					                                |
-| MOS-CNV-004 | Invalid Target Value or Target Format not supported					                                |
-| MOS-CNV-005 | Source value can not be empty or null					                                              |
-| MOS-CNV-006 | Source not valid base64urlencoded					                                                  |
-| MOS-CNV-007 | Could not read Source ISO Image Data				                                                |
-| MOS-CNV-008 | Source not valid ISO ISO19794_4_2011				                                                |
-| MOS-CNV-009 | Source not valid ISO ISO19794_5_2011					                                              |
-| MOS-CNV-010 | Source not valid ISO ISO19794_6_2011					                                              |
-| MOS-CNV-011 | Target format not valid 																	                                  |
-| MOS-CNV-500 | Technical Error																				                                      |
+| **Code** | **Description** |
+|----|----|
+| MOS-CNV-001 | Input Source Request may be null or Source Format may be null or Target Format may be null |
+| MOS-CNV-002 | Invalid Request Value |
+| MOS-CNV-003 | Invalid Source Value or Source Format not supported |
+| MOS-CNV-004 | Invalid Target Value or Target Format not supported |
+| MOS-CNV-005 | Source value cannot be empty or null |
+| MOS-CNV-006 | Source not valid base64urlencoded |
+| MOS-CNV-007 | Could not read Source ISO Image Data |
+| MOS-CNV-008 | Source not valid ISO ISO19794_4_2011 |
+| MOS-CNV-009 | Source not valid ISO ISO19794_5_2011 |
+| MOS-CNV-010 | Source not valid ISO ISO19794_6_2011 |
+| MOS-CNV-011 | Target format not valid |
+| MOS-CNV-500 | Technical Error |
 
 
 ## Configuration
