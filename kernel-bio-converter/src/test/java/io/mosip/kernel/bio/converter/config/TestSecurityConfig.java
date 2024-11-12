@@ -119,12 +119,12 @@ public class TestSecurityConfig {
 	 * @return AuthenticationManager instance
 	 * @throws Exception if an error occurs while retrieving AuthenticationManager
 	 */
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
-
+	/*
+	 * @Bean public AuthenticationManager
+	 * authenticationManager(AuthenticationConfiguration
+	 * authenticationConfiguration) throws Exception { return
+	 * authenticationConfiguration.getAuthenticationManager(); }
+	 */
 	/**
 	 * Configures an in-memory user details service with predefined users and roles.
 	 * 
