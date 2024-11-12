@@ -72,17 +72,17 @@
 		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
 		<jackson.dataformat.xml.version>2.14.0</jackson.dataformat.xml.version>
 
+		<!-- Sonar -->
+		<sonar.exclusions>
+			**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,"**/proxy/**","**/AuditManagerBootApplication.java/**</sonar.exclusions>
+		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
+
 		<!-- Mosip kernel -->
 		<kernel.bom.version>1.2.1-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
 		<kernel.logger.logback.version>1.2.1-SNAPSHOT</kernel.logger.logback.version>
 		<mosip.biometrics.util.version>1.2.1-SNAPSHOT</mosip.biometrics.util.version>
 		<!-- Auth adapter remove   -->
-
-		<sonar.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/AuditManagerBootApplication.java</sonar.exclusions>
-		<sonar.coverage.exclusions>**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/AuditManagerBootApplication.java</sonar.coverage.exclusions>
-		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
-
 	</properties>
 
 	<dependencyManagement>
@@ -289,8 +289,6 @@
 						<exclude>**/constant/**</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/dto/**</exclude>
-						<exclude>io/mosip/authentication/service/*.class</exclude>
-						<exclude>io/mosip/authentication/service/filter/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -397,6 +395,15 @@
 	<profiles>
 		<profile>
 			<id>sonar</id>
+			<properties>
+				<sonar.sources>.</sonar.sources>
+				<sonar.inclusions>src/main/java/**,src/main/resources/**</sonar.inclusions>
+				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
+				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>

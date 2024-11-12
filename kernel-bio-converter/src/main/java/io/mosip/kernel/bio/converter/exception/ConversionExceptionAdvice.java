@@ -73,7 +73,7 @@ public class ConversionExceptionAdvice {
 	 */
 	@ExceptionHandler(value = { Exception.class, RuntimeException.class, ConversionException.class })
 	public ResponseEntity<ResponseWrapper<ServiceError>> defaultServiceErrorHandler(HttpServletRequest request,
-			Exception e) throws IOException {
+			Exception e) throws Exception {
 		ResponseWrapper<ServiceError> responseWrapper = setErrors(request);
 		ServiceError error = null;
 		if (e instanceof ConversionException conversionException) {
@@ -96,7 +96,7 @@ public class ConversionExceptionAdvice {
 	 * @return a {@link ResponseWrapper} with the error details.
 	 * @throws IOException if there is an error reading the request body.
 	 */
-	private ResponseWrapper<ServiceError> setErrors(HttpServletRequest httpServletRequest) throws IOException {
+	public ResponseWrapper<ServiceError> setErrors(HttpServletRequest httpServletRequest) throws Exception {
 		ResponseWrapper<ServiceError> responseWrapper = new ResponseWrapper<>();
 		String requestBody = null;
 		if (httpServletRequest instanceof ContentCachingRequestWrapper requestWrapper) {
