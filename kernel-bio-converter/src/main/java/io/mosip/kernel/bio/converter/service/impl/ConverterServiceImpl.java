@@ -84,7 +84,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	}
 
 	@SuppressWarnings({ "java:S1172", "java:S6208" })
-	private String convertFingerIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	protected String convertFingerIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -144,7 +144,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	}
 
 	@SuppressWarnings({ "java:S1172" })
-	private String convertFaceIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	protected String convertFaceIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -193,7 +193,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	}
 
 	@SuppressWarnings({ "java:S1172" })
-	private String convertIrisIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	protected String convertIrisIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -241,7 +241,7 @@ public class ConverterServiceImpl implements IConverterApi {
 		throw new ConversionException(errorCode.getErrorCode(), errorCode.getErrorMessage());
 	}
 
-	private byte[] convertBufferedImageToBytes(TargetFormatCode targetCode, BufferedImage outImage) {
+	protected byte[] convertBufferedImageToBytes(TargetFormatCode targetCode, BufferedImage outImage) {
 		switch (targetCode) {
 		case IMAGE_JPEG:
 			return CommonUtil.convertBufferedImageToJPEGBytes(outImage);

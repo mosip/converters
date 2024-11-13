@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * The entry point for the Kernel Bio Converter Application.
@@ -26,6 +28,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  */
 @SpringBootApplication(scanBasePackages = { "${mosip.auth.adapter.impl.basepackage}, io.mosip.kernel.bio.*" })
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+@ComponentScan(
+	    basePackages = "io.mosip.kernel",
+	    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {io.mosip.kernel.auth.defaultadapter.config.SecurityConfig.class})
+	)
 public class KernelBioConverterApplication {
 	/**
 	 * The main method which serves as the entry point for the Spring Boot
