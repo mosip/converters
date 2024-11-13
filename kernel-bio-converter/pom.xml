@@ -73,6 +73,11 @@
 		<jackson.dataformat.xml.version>2.14.0</jackson.dataformat.xml.version>
 		<vertx.version>3.9.13</vertx.version>
 		
+		<!-- Sonar -->
+		<sonar.exclusions>
+			**/dto/**,**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/request/**,**/spi/**,**/proxy/**,**/KernelBioConverterApplication.java</sonar.exclusions>
+		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**</sonar.cpd.exclusions>
+		
 		<!-- Mosip kernel -->
 		<kernel.bom.version>1.3.0-beta.1</kernel.bom.version>
 		<kernel.core.version>1.3.0-beta.1</kernel.core.version>
@@ -296,6 +301,8 @@
 						<exclude>**/constant/**</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/dto/**</exclude>
+						<exclude>**/exception/**</exclude>
+						<exclude>**/KernelBioConverterApplication.java</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -408,9 +415,6 @@
 				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
 				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
 			<build>
 				<plugins>
 					<plugin>
