@@ -1,8 +1,5 @@
 package io.mosip.kernel.bio.converter.service.impl;
 
-import static io.mosip.kernel.bio.converter.constant.ConverterErrorCode.INVALID_TARGET_EXCEPTION;
-import static io.mosip.kernel.bio.converter.constant.ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -84,7 +81,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	}
 
 	@SuppressWarnings({ "java:S1172", "java:S6208" })
-	protected String convertFingerIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	public String convertFingerIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -112,39 +109,33 @@ public class ConverterServiceImpl implements IConverterApi {
 			throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
 		}
 
-		BufferedImage outImage = null;
-		byte[] outImageData = null;
-		switch (inCompressionType) {
-		case FingerImageCompressionType.JPEG_2000_LOSSY:
-		case FingerImageCompressionType.JPEG_2000_LOSS_LESS:
-			try {
-				outImage = ImageIO.read(new ByteArrayInputStream(inImageData));
-				// change here outImage width, height, dpi here based on targetParameters
-			} catch (IOException e) {
-				errorCode = ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION;
-				throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
-			}
-			outImageData = convertBufferedImageToBytes(targetCode, outImage);
-			break;
-		case FingerImageCompressionType.WSQ:
-			WsqDecoder decoder = new WsqDecoder();
-			Bitmap bitmap = decoder.decode(inImageData);
-			outImage = CommonUtil.convert(bitmap);
-			// change here outImage width, height, dpi here based on targetParameters
-			outImageData = convertBufferedImageToBytes(targetCode, outImage);
-			break;
-		default:
-			throw new ConversionException(NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
-					NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
-		}
-		if (outImageData != null) {
-			return CommonUtil.encodeToURLSafeBase64(outImageData);
-		}
-		throw new ConversionException(errorCode.getErrorCode(), errorCode.getErrorMessage());
+		BufferedImage outImage = decodeFingerImage(inImageData, inCompressionType);
+		byte[] outImageData = convertBufferedImageToBytes(targetCode, outImage);
+	    return CommonUtil.encodeToURLSafeBase64(outImageData);
+	}
+
+	public BufferedImage decodeFingerImage(byte[] imageData, int compressionType) throws ConversionException {
+	    try {
+	        switch (compressionType) {
+	            case FingerImageCompressionType.JPEG_2000_LOSSY:
+	            case FingerImageCompressionType.JPEG_2000_LOSS_LESS:
+	                return ImageIO.read(new ByteArrayInputStream(imageData));
+	            case FingerImageCompressionType.WSQ:
+	                WsqDecoder decoder = new WsqDecoder();
+	                Bitmap bitmap = decoder.decode(imageData);
+	                return CommonUtil.convert(bitmap);
+	            default:
+	                throw new ConversionException(ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
+	                		ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
+	        }
+	    } catch (IOException | NullPointerException e) {
+	        throw new ConversionException(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(), 
+	                                      e.getLocalizedMessage());
+	    }
 	}
 
 	@SuppressWarnings({ "java:S1172" })
-	protected String convertFaceIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	public String convertFaceIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -171,29 +162,27 @@ public class ConverterServiceImpl implements IConverterApi {
 			throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
 		}
 
-		BufferedImage outImage = null;
-		byte[] outImageData = null;
-		if (inImageDataType == ImageDataType.JPEG2000_LOSSY || inImageDataType == ImageDataType.JPEG2000_LOSS_LESS) {
-			try {
-				outImage = ImageIO.read(new ByteArrayInputStream(inImageData));
-				// change here outImage width, height, dpi here based on targetParameters
-			} catch (IOException e) {
-				errorCode = ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION;
-				throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
-			}
-			outImageData = convertBufferedImageToBytes(targetCode, outImage);
-		} else {
-			throw new ConversionException(NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
-					NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
-		}
-		if (outImageData != null) {
-			return CommonUtil.encodeToURLSafeBase64(outImageData);
-		}
-		throw new ConversionException(errorCode.getErrorCode(), errorCode.getErrorMessage());
+		BufferedImage outImage = decodeFaceImage(inImageData, inImageDataType);
+	    byte[] outImageData = convertBufferedImageToBytes(targetCode, outImage);
+	    return CommonUtil.encodeToURLSafeBase64(outImageData);
 	}
 
+	public BufferedImage decodeFaceImage(byte[] imageData, int imageDataType) throws ConversionException {
+	    try {
+	        if (imageDataType == ImageDataType.JPEG2000_LOSSY || imageDataType == ImageDataType.JPEG2000_LOSS_LESS) {
+	            return ImageIO.read(new ByteArrayInputStream(imageData));
+	        } else {
+	            throw new ConversionException(ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
+	            		ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
+	        }
+	    } catch (IOException | NullPointerException e) {
+	        throw new ConversionException(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(), 
+	                                      e.getLocalizedMessage());
+	    }
+	}
+	
 	@SuppressWarnings({ "java:S1172" })
-	protected String convertIrisIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
+	public String convertIrisIsoToImageType(SourceFormatCode sourceCode, String isoData, TargetFormatCode targetCode,
 			Map<String, String> targetParameters) throws ConversionException {
 		ConverterErrorCode errorCode = ConverterErrorCode.TECHNICAL_ERROR_EXCEPTION;
 
@@ -220,36 +209,34 @@ public class ConverterServiceImpl implements IConverterApi {
 			throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
 		}
 
-		BufferedImage outImage = null;
-		byte[] outImageData = null;
-		if (inImageFormat == ImageFormat.MONO_JPEG2000) {
-			try {
-				outImage = ImageIO.read(new ByteArrayInputStream(inImageData));
-				// change here outImage width, height, dpi here based on targetParameters
-			} catch (IOException e) {
-				errorCode = ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION;
-				throw new ConversionException(errorCode.getErrorCode(), e.getLocalizedMessage());
-			}
-			outImageData = convertBufferedImageToBytes(targetCode, outImage);
-		} else {
-			throw new ConversionException(NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
-					NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
-		}
-		if (outImageData != null) {
-			return CommonUtil.encodeToURLSafeBase64(outImageData);
-		}
-		throw new ConversionException(errorCode.getErrorCode(), errorCode.getErrorMessage());
+		BufferedImage outImage = decodeIrisImage(inImageData, inImageFormat);
+	    byte[] outImageData = convertBufferedImageToBytes(targetCode, outImage);
+	    return CommonUtil.encodeToURLSafeBase64(outImageData);
 	}
 
-	protected byte[] convertBufferedImageToBytes(TargetFormatCode targetCode, BufferedImage outImage) {
+	public BufferedImage decodeIrisImage(byte[] imageData, int imageFormat) throws ConversionException {
+	    try {
+	        if (imageFormat == ImageFormat.MONO_JPEG2000) {
+	            return ImageIO.read(new ByteArrayInputStream(imageData));
+	        } else {
+	            throw new ConversionException(ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
+	            		ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
+	        }
+	    } catch (IOException | NullPointerException e) {
+	        throw new ConversionException(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(),
+	                                      e.getLocalizedMessage());
+	    }
+	}
+	
+	public byte[] convertBufferedImageToBytes(TargetFormatCode targetCode, BufferedImage outImage) {
 		switch (targetCode) {
 		case IMAGE_JPEG:
 			return CommonUtil.convertBufferedImageToJPEGBytes(outImage);
 		case IMAGE_PNG:
 			return CommonUtil.convertBufferedImageToPNGBytes(outImage);
 		default:
-			throw new ConversionException(INVALID_TARGET_EXCEPTION.getErrorCode(),
-					INVALID_TARGET_EXCEPTION.getErrorMessage());
+			throw new ConversionException(ConverterErrorCode.INVALID_TARGET_EXCEPTION.getErrorCode(),
+					ConverterErrorCode.INVALID_TARGET_EXCEPTION.getErrorMessage());
 		}
 	}
 }

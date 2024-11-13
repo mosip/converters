@@ -10,7 +10,7 @@ Refer to SQL scripts.
 
 The project requires the following:
 
-Java Development Kit (JDK): Version 21.0.4
+Java Development Kit (JDK): Version 21.0.5
 Maven: Version 3.9.6
 
 1. Build and install:
@@ -19,17 +19,15 @@ Maven: Version 3.9.6
     ```shell
     $ cd converters/kernel-bio-converter
     ```
-2. Download the latest kernel-auth-adapter from https://mvnrepository.com/artifact/io.mosip.kernel/kernel-auth-adapter and save into lib folder.
-
-3. Build the project:
+2. Build the project:
 
 ```shell
     $ mvn install -DskipTests=true -Dgpg.skip=true
 ```
-4. Run the jar locally:
+3. Run the jar locally:
 
     ```java
-    $ java -Dloader.path=lib/kernel-auth-adapter-latestname.jar 
+    $ java -Dloader.path=.
     --add-modules=ALL-SYSTEM 
     --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED 
     --add-opens java.base/java.lang.reflect=ALL-UNNAMED 
@@ -38,12 +36,12 @@ Maven: Version 3.9.6
     --add-opens java.base/java.time.LocalDate=ALL-UNNAMED 
     --add-opens java.base/java.time.LocalDateTime=ALL-UNNAMED 
     --add-opens java.base/java.time.LocalDateTime.date=ALL-UNNAMED 
-    --add-opens java.base/jdk.internal.reflect.DirectMethodHandleAccessor=ALL-UNNAMED  -jar target/latestjarname.jar.
+    --add-opens java.base/jdk.internal.reflect.DirectMethodHandleAccessor=ALL-UNNAMED  -jar target/{latestjarname}.jar.
     ```
 
 Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/index.html)
 
-5. Use the jar as library:
+4. Use the jar as library:
 
 ```maven
 		<dependency>

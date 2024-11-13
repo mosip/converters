@@ -293,6 +293,50 @@ public class ConvertControllerTest {
 
 	/**
 	 * Integration test for handling scenarios where ConvertRequestDto Source not
+	 * valid ISO ISO19794_5_2011.
+	 *
+	 * @throws Exception if an error occurs during execution
+	 */
+	@Test
+	@WithMockUser("reg-officer")
+	public void t0091ConvertTest() throws Exception {
+		String req = "{" + "\"values\":{" + "\"Face\": \"aGVsbG8gaG93IGFyZSB5b3U\"" + "},"
+				+ "\"sourceFormat\":\"ISO19794_5_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
+				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
+				+ "}" + "}";
+		convertRequestDto.setRequest(mapper.readValue(req, ConvertRequestDto.class));
+
+		ConverterDataUtil
+				.checkResponse(
+						mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
+								.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
+						500, null, "MOS-CNV-009");
+	}
+
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Source is
+	 * valid ISO ISO19794_5_2011 and Target code also valid , base64 data is wrong
+	 *
+	 * @throws Exception if an error occurs during execution
+	 */
+	@Test
+	@WithMockUser("reg-officer")
+	public void t0092ConvertTest() throws Exception {
+		String req = "{" + "\"values\":{" + "\"Face\": \"12SGVsbGxyz8gd29ybGQ=\"" + "},"
+				+ "\"sourceFormat\":\"ISO19794_5_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
+				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
+				+ "}" + "}";
+		convertRequestDto.setRequest(mapper.readValue(req, ConvertRequestDto.class));
+
+		ConverterDataUtil
+				.checkResponse(
+						mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
+								.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
+						500, null, "MOS-CNV-006");
+	}
+	
+	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Source not
 	 * valid ISO ISO19794_6_2011.
 	 *
 	 * @throws Exception if an error occurs during execution
@@ -337,6 +381,28 @@ public class ConvertControllerTest {
 	}
 
 	/**
+	 * Integration test for handling scenarios where ConvertRequestDto Target
+	 * Format(IMAGE/JPEG) and Source Format(ISO19794_6_2011) and ISO base64 wrong.
+	 *
+	 * @throws Exception if an error occurs during execution
+	 */
+	@Test
+	@WithMockUser("reg-officer")
+	public void t0111ConvertTest() throws Exception {
+		String req = "{" + "\"values\":{" + "\"Left\": \"12SGVsbGxyz8gd29ybGQ=\"" + "},"
+				+ "\"sourceFormat\":\"ISO19794_6_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
+				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
+				+ "}" + "}";
+		convertRequestDto.setRequest(mapper.readValue(req, ConvertRequestDto.class));
+
+		ConverterDataUtil
+				.checkResponse(
+						mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
+								.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
+						500, null, "MOS-CNV-006");
+	}
+
+	/**
 	 * Integration test for converting biometric data from ISO19794_4_2011 format to
 	 * JPEG image format.
 	 *
@@ -346,6 +412,29 @@ public class ConvertControllerTest {
 	@WithMockUser("reg-officer")
 	public void t012ConvertTest() throws Exception {
 		FileInputStream fis = new FileInputStream("src/test/resources/finger.txt");
+		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
+		String req = "{" + "\"values\":{" + "\"Left IndexFinger\": \"" + bioData + "\"" + "},"
+				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","
+				+ "\"sourceParameters\":{" + "\"key\":\"value\"" + "}," + "\"targetParameters\":{" + "\"key\":\"value\""
+				+ "}" + "}";
+		convertRequestDto.setRequest(mapper.readValue(req, ConvertRequestDto.class));
+
+		ConverterDataUtil.checkResponse(
+				mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
+						.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
+				200, SourceFormatCode.ISO19794_4_2011, TargetFormatCode.IMAGE_JPEG.getCode());
+	}
+
+	/**
+	 * Integration test for converting biometric data from ISO19794_4_2011 with WSQ image format to
+	 * JPEG image format.
+	 *
+	 * @throws Exception if an error occurs during execution
+	 */
+	@Test
+	@WithMockUser("reg-officer")
+	public void t012ConvertTest_WSQ() throws Exception {
+		FileInputStream fis = new FileInputStream("src/test/resources/finger_wsq.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
 		String req = "{" + "\"values\":{" + "\"Left IndexFinger\": \"" + bioData + "\"" + "},"
 				+ "\"sourceFormat\":\"ISO19794_4_2011\"," + "\"targetFormat\":\"IMAGE/JPEG\","

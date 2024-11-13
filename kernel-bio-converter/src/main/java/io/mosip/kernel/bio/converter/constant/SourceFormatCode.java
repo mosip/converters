@@ -26,7 +26,9 @@ import io.mosip.kernel.bio.converter.exception.ConversionException;
  */
 
 public enum SourceFormatCode {
-	ISO19794_4_2011("ISO19794_4_2011", "Finger ISO format"), ISO19794_5_2011("ISO19794_5_2011", "Face ISO format"),
+	ISO19794_2_2011("ISO19794_2_2011", "Finger ISO FMR format"), 
+	ISO19794_4_2011("ISO19794_4_2011", "Finger ISO format"), 
+	ISO19794_5_2011("ISO19794_5_2011", "Face ISO format"),
 	ISO19794_6_2011("ISO19794_6_2011", "Iris ISO format");
 
 	private final String code;
