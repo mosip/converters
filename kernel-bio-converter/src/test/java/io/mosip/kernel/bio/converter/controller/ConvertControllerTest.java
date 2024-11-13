@@ -1,9 +1,13 @@
 package io.mosip.kernel.bio.converter.controller;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -26,6 +30,7 @@ import io.mosip.kernel.bio.converter.TestBootApplication;
 import io.mosip.kernel.bio.converter.constant.SourceFormatCode;
 import io.mosip.kernel.bio.converter.constant.TargetFormatCode;
 import io.mosip.kernel.bio.converter.dto.ConvertRequestDto;
+import io.mosip.kernel.bio.converter.exception.ConversionException;
 import io.mosip.kernel.bio.converter.util.ConverterDataUtil;
 import io.mosip.kernel.core.http.RequestWrapper;
 
@@ -466,5 +471,21 @@ public class ConvertControllerTest {
 				mockMvc.perform(post("/convert").contentType(MediaType.APPLICATION_JSON)
 						.content(mapper.writeValueAsString(convertRequestDto))).andReturn(),
 				200, SourceFormatCode.ISO19794_6_2011, TargetFormatCode.IMAGE_PNG.getCode());
+	}
+	
+	@Test
+	@WithMockUser("reg-officer")
+	public void t004ConvertTest_invalidSourceFormat() throws Exception {
+	    Map<String, String> values = Map.of("key1", "validData");
+
+	    convertRequestDto.setRequest(new ConvertRequestDto(values, "INVALID_FORMAT", "TARGET_FORMAT", Map.of(), Map.of()));
+	    String requestContent = mapper.writeValueAsString(convertRequestDto);
+
+	    mockMvc.perform(post("/convert")
+	            .contentType(MediaType.APPLICATION_JSON)
+	            .content(requestContent))
+	            .andExpect(status().isInternalServerError())
+	            .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConversionException))
+	            .andExpect(jsonPath("$.errors[0].errorCode").value("MOS-CNV-003"));
 	}
 }
