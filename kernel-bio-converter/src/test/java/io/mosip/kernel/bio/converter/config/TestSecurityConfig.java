@@ -50,7 +50,7 @@ import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
  * method security.
  * </p>
  * 
- * @author Janardan B S
+ * @author Janardhan B S
  * @since 1.0.0
  */
 
@@ -119,12 +119,12 @@ public class TestSecurityConfig {
 	 * @return AuthenticationManager instance
 	 * @throws Exception if an error occurs while retrieving AuthenticationManager
 	 */
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
-
+	/*
+	 * @Bean public AuthenticationManager
+	 * authenticationManager(AuthenticationConfiguration
+	 * authenticationConfiguration) throws Exception { return
+	 * authenticationConfiguration.getAuthenticationManager(); }
+	 */
 	/**
 	 * Configures an in-memory user details service with predefined users and roles.
 	 * 
