@@ -1,4 +1,5 @@
 FROM mosipid/openjdk-21-jre:21.0.4
+
 # label to be assigned along with  Docker build [Mandatory]
 ARG SOURCE
 ARG COMMIT_HASH
@@ -56,18 +57,28 @@ ARG container_user_gid=1001
 
 # set working directory for the user
 WORKDIR /home/${container_user}
+
 ENV work_dir=/home/${container_user}
+
 ARG loader_path=${work_dir}/additional_jars/
+
 ENV loader_path_env=${loader_path}
+
 ARG logging_level_root=INFO
+
 ENV logging_level_root_env=${logging_level_root}
 
 # set working directory for the user
 WORKDIR /home/${container_user}
+
 ENV work_dir=/home/${container_user}
+
 ARG loader_path=${work_dir}/additional_jars/
+
 ENV loader_path_env=${loader_path}
+
 ARG logging_level_root=INFO
+
 ENV logging_level_root_env=${logging_level_root}
 
 # install packages and create user
@@ -76,7 +87,9 @@ RUN apt-get update && \
     groupadd -g ${container_user_gid} ${container_user_group} && \
     useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/bash -m ${container_user} && \
     mkdir -p /home/${container_user} ${loader_path}
+
 ENV loader_path_env=${loader_path}
+
 COPY ./target/kernel-bio-converter-*.jar kernel-bio-converter.jar
 
 # change permissions of file inside working dir
