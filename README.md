@@ -10,7 +10,7 @@ Refer to SQL scripts.
 
 The project requires the following:
 
-Java Development Kit (JDK): Version 21.0.4
+Java Development Kit (JDK): Version 21.0.5
 Maven: Version 3.9.6
 
 1. Build and install:

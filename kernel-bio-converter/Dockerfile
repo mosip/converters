@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 FROM mosipid/openjdk-21-jre:21.0.4
-=======
-FROM mosipdev/openjdk-21-jre:latest
->>>>>>> 3211c6f ([MOSIP-33316] (#62))
-=======
-FROM mosipid/openjdk-21-jre:21.0.4
->>>>>>> 0426a10 ([MOSIP-37445] Updated Dockerfile base image)
 
 # label to be assigned along with  Docker build [Mandatory]
 ARG SOURCE
