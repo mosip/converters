@@ -115,5 +115,4 @@ public class ConvertRequestDto {
 	public boolean canEqual(Object other) {
 		return other instanceof ConvertRequestDto;
 	}
-
 }
