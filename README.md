@@ -3,9 +3,6 @@
 # Overview
 This repository contains the source code for the Converters module, which enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
 
-## Databases
-Refer to SQL scripts.
-
 ## Build & run (for developers)
 
 The project requires the following:
@@ -66,13 +63,7 @@ Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/
     $ docker build -f Dockerfile
 ```
         
-## Channel:
-Default channel is HTTP (POST)
-
-## APIs for configuration and Expectation setting
-[Sample expectations](./docs/sampleExpectations.md)
-
-### Update configuration
+## APIs testing
 
 **Url**: http://{host}/v1/converter-service/convert
 
@@ -153,16 +144,6 @@ Method: POST
 | MOS-CNV-011  | Target format not valid 																	                                   |
 | MOS-CNV-500  | Technical Error																				                                     |
 
-
-## Configuration
-
-
-## Deploy
-
-
-## Test
-
-## APIs
 
 ## License
 This project is licensed under the terms of [Mozilla Public License 2.0](LICENSE).
