@@ -70,7 +70,7 @@ Use the cd command to move to the directory containing the desired service's Doc
 2. Build the Docker image:
 
 ```shell
-    $ docker build -f Dockerfile
+    $ docker build -t <image-name>:<tag> -f Dockerfile .
 ```
         
 ## APIs testing
