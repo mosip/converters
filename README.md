@@ -1,17 +1,18 @@
 # Converters
 
 # Overview
-This repository contains the source code for the Converters module, which enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
 
-## Databases
-Refer to SQL scripts.
+This repository contains the source code for the Converters module, which enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
 
 ## Build & run (for developers)
 
-The project requires the following:
+To build and run the project, ensure you have the following prerequisites installed:
 
-Java Development Kit (JDK): Version 21.0.5
-Maven: Version 3.9.6
+- Java Development Kit (JDK): Version 21.0.5
+
+- Apache Maven: Version 3.9.6
+
+Follow these below steps to get started:
 
 1. Build and install:
  - Navigate to the project directory:
@@ -43,7 +44,7 @@ Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/
 
 4. Use the jar as library:
 
-```maven
+```xml
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-bio-converter</artifactId>
@@ -54,7 +55,13 @@ Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/
 
 # Docker Instructions
 
-1. To build a Docker image for a specific service, navigate to the service folder:
+Follow these steps to build a Docker image for a specific service:
+
+
+
+1. Navigate to the service folder:
+
+Use the cd command to move to the directory containing the desired service's Dockerfile.
 
 ```shell
     $ cd <service folder>
@@ -63,16 +70,10 @@ Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/
 2. Build the Docker image:
 
 ```shell
-    $ docker build -f Dockerfile
+    $ docker build -t <image-name>:<tag> -f Dockerfile .
 ```
         
-## Channel:
-Default channel is HTTP (POST)
-
-## APIs for configuration and Expectation setting
-[Sample expectations](./docs/sampleExpectations.md)
-
-### Update configuration
+## APIs testing
 
 **Url**: http://{host}/v1/converter-service/convert
 
@@ -112,6 +113,7 @@ Method: POST
 
 
 ## Response:
+
 ```json
 {
   "id": "sample-converter",
@@ -153,16 +155,6 @@ Method: POST
 | MOS-CNV-011  | Target format not valid 																	                                   |
 | MOS-CNV-500  | Technical Error																				                                     |
 
-
-## Configuration
-
-
-## Deploy
-
-
-## Test
-
-## APIs
 
 ## License
 This project is licensed under the terms of [Mozilla Public License 2.0](LICENSE).
