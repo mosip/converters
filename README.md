@@ -4,6 +4,8 @@
 
 This repository contains the source code for the Converters module, which enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
 
+Note: This converters module can be used both as a library and as a service. 
+
 ## Build & run (for developers)
 
 To build and run the project, ensure you have the following prerequisites installed:
@@ -25,7 +27,7 @@ Follow these below steps to get started:
 ```shell
     $ mvn install -DskipTests=true -Dgpg.skip=true
 ```
-3. Run the jar locally:
+3. Run the jar locally to use the module as a service:
 
     ```java
     $ java -Dloader.path=.
@@ -42,7 +44,7 @@ Follow these below steps to get started:
 
 Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/index.html)
 
-4. Use the jar as library:
+4. To use the jar as library configure the module as below:
 
 ```xml
 		<dependency>
@@ -56,8 +58,6 @@ Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/
 # Docker Instructions
 
 Follow these steps to build a Docker image for a specific service:
-
-
 
 1. Navigate to the service folder:
 
@@ -75,9 +75,15 @@ Use the cd command to move to the directory containing the desired service's Doc
         
 ## APIs testing
 
+Refer to the below Url
+
 **Url**: http://{host}/v1/converter-service/convert
 
+Note: The above Url runs locally or any host environment setup
+
 Method: POST
+
+Refer below for API request structure:
 
 ## Request:
 
@@ -110,6 +116,9 @@ Method: POST
 | sourceParameters 		  | key-value pairs [IMAGE/JPEG, IMAGE/PNG]                                          |
 | targetFormat 			    | Http mime types, ISO formats                                                     |
 | targetParameters 		  | key-value pairs                                                                  |
+
+
+Refer below for API response structure:
 
 
 ## Response:
