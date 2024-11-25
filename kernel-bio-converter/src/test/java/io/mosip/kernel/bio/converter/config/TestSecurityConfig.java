@@ -79,6 +79,7 @@ import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
 @EnableWebSecurity
 @EnableWebMvc
 <<<<<<< HEAD
+<<<<<<< HEAD
 @EnableMethodSecurity(prePostEnabled = true)
 @Order(2)
 public class TestSecurityConfig {
@@ -92,6 +93,9 @@ public class TestSecurityConfig {
 //@EnableMethodSecurity
 @EnableMethodSecurity(prePostEnabled = true// , securedEnabled = true, jsr250Enabled = true
 )
+=======
+@EnableMethodSecurity(prePostEnabled = true)
+>>>>>>> 3ebf8d7 ([MOSIP-33316])
 @Order(2)
 public class TestSecurityConfig {
 
@@ -121,7 +125,7 @@ public class TestSecurityConfig {
 =======
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().requestMatchers(allowedEndPoints()).and().httpFirewall(defaultHttpFirewall());
+		return web -> web.ignoring().requestMatchers(allowedEndPoints()).and().httpFirewall(defaultHttpFirewall());
 	}
 
 >>>>>>> 5ba3193 (MOSIP-32456)
@@ -202,40 +206,17 @@ public class TestSecurityConfig {
 	 */
 =======
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedEntryPoint()))
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-				.userDetailsService(userDetailsService());
-
-		return http.build();
-		/*
-		 * http .authorizeHttpRequests((authz) -> authz .anyRequest().authenticated() )
-		 * .httpBasic().and().authorizeRequests().anyRequest().authenticated().and().
-		 * sessionManagement()
-		 * .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-		 * exceptionHandling() .authenticationEntryPoint(unauthorizedEntryPoint());
-		 * return http.build();
-		 */
-	}
-
-	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("*"));
-		configuration.setAllowedMethods(Arrays.asList("*", "POST", "PUT", "GET", "OPTIONS", "DELETE", "PATCH")); // or
-																													// simply
-																													// "*"
+		/* 
+		 * or simply "*"
+		 */
+		configuration.setAllowedMethods(Arrays.asList("*", "POST", "PUT", "GET", "OPTIONS", "DELETE", "PATCH")); 
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
-	}
-
-	@Bean
-	public AuthenticationEntryPoint unauthorizedEntryPoint() {
-		return (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 	}
 
 	@Bean
