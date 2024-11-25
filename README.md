@@ -10,7 +10,7 @@ Note: This converters module can be used both as a library and as a service.
 
 To build and run the project, ensure you have the following prerequisites installed:
 
-- Java Development Kit (JDK): Version 21.0.5
+- Java Development Kit (JDK): Version 21.0.3
 
 - Apache Maven: Version 3.9.6
 
