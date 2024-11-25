@@ -1,15 +1,8 @@
-<<<<<<< HEAD
 .idea
-=======
->>>>>>> 7b4602c ([MOSIP-33316] Merge develop from develop-java21)
 /.metadata/
 .sonarlint/
 */.classpath
 */.gitignore
 */.project
-<<<<<<< HEAD
 */.settings/
 */target/
-=======
-*/.settings/
->>>>>>> 7b4602c ([MOSIP-33316] Merge develop from develop-java21)
