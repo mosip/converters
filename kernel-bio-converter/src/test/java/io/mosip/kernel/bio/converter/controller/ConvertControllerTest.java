@@ -477,8 +477,14 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
+<<<<<<< HEAD
 	@WithMockUser("reg-officer")
 	public void t013ConvertTest() throws Exception {
+=======
+	@WithUserDetails("reg-officer")
+	public void t013ConvertTest() // 
+			throws Exception {
+>>>>>>> 75a80aa ([MOSIP-33316])
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
 		String req = "{" + "\"values\":{" + "\"Face\": \"" + bioData + "\"" + "},"
@@ -499,9 +505,16 @@ public class ConvertControllerTest {
 	 * @throws Exception if an error occurs during execution
 	 */
 	@Test
+<<<<<<< HEAD
 	@WithMockUser("reg-officer")
 	@SuppressWarnings({ "java:S4144" })
 	public void t0131ConvertTest() throws Exception {
+=======
+	@WithUserDetails("reg-officer")
+	@SuppressWarnings({ "java:S4144" })
+	public void t0131ConvertTest() 
+			throws Exception {
+>>>>>>> 75a80aa ([MOSIP-33316])
 		FileInputStream fis = new FileInputStream("src/test/resources/face.txt");
 		String bioData = IOUtils.toString(fis, StandardCharsets.UTF_8);
 		String req = "{" + "\"values\":{" + "\"Face\": \"" + bioData + "\"" + "},"

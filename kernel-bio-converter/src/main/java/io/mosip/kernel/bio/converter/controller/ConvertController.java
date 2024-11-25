@@ -38,10 +38,6 @@ public class ConvertController {
 	 */
 	private IConverterApi converterService;
 
-	@Autowired
-	public ConvertController(IConverterApi converterService) {
-		this.converterService = converterService;
-	}
 	/**
 	 * Constructor for initializing the controller with a converter service.
 	 * 
