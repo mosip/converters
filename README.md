@@ -164,6 +164,8 @@ Refer below for API response structure:
 | MOS-CNV-011  | Target format not valid 																	                                   |
 | MOS-CNV-500  | Technical Error																				                                     |
 
+## Deploy
+To deploy Admin on Kubernetes cluster using Dockers refer to [Sandbox Deployment](https://docs.mosip.io/1.2.0/deploymentnew/v3-installation).
 
 ## License
 This project is licensed under the terms of [Mozilla Public License 2.0](LICENSE).
