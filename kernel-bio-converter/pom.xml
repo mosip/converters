@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-bio-converter</artifactId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0-beta.1</version>
 	<name>kernel-bio-converter</name>
 	<description>kernel-bio-converter</description>
 	<url>https://github.com/mosip/converters</url>
