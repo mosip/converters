@@ -443,8 +443,28 @@
 							</execution>
 						</executions>
 					</plugin>
+					<plugin>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<version>${maven.deploy.plugin.version}</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+						<executions>
+							<execution>
+								<id>default-deploy</id>
+								<phase>none</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+								<configuration>
+									<skip>true</skip>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
 </project>
+
