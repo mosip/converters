@@ -1,92 +1,149 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=release-1.3.x&project=mosip_kernel-bio-converter&metric=alert_status)](https://sonarcloud.io/dashboard?branch=release-1.3.x&id=mosip_kernel-bio-converter)
 # Converters
+[![Maven Package upon a push](https://github.com/mosip/converters/actions/workflows/push-trigger.yml/badge.svg?branch=release-1.3.x)](https://github.com/mosip/converters/actions/workflows/push-trigger.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_kernel-bio-converter&metric=alert_status&branch=release-1.3.x)](https://sonarcloud.io/dashboard?id=mosip_kernel-bio-converter&branch=release-1.3.x)
 
-# Overview
+## Overview
 
-This repository contains the source code for the Converters module, which enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
+The **Converters** is a MOSIP module that enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
 
-Note: This converters module can be used both as a library and as a service. 
+Note: This converters module can be used both as a library and as a service.
 
-## Build & run (for developers)
+## Features
 
-To build and run the project, ensure you have the following prerequisites installed:
+- Conversion of ISO biometric and document data into standard image formats (JPEG, PNG)
+- Exposes API endpoints for conversion operations
+- Support for multiple ISO formats (ISO19794_4_2011, ISO19794_5_2011, ISO19794_6_2011)
+- Library and Service usage modes
 
-- Java Development Kit (JDK): Version 21.0.3
+## Services
 
-- Apache Maven: Version 3.9.6
+The Converters module contains the following:
 
-Follow these below steps to get started:
+1. **[Converter Service](kernel-bio-converter)** (`kernel-bio-converter`) - Service for biometric data conversion.
 
-1. Build and install:
- - Navigate to the project directory:
+## Database
+NA (Not applicable)
 
-    ```shell
-    $ cd converters/kernel-bio-converter
-    ```
-2. Build the project:
+## Local Setup
 
-```shell
-    $ mvn install -DskipTests=true -Dgpg.skip=true
+The project can be set up in two ways:
+
+1. [Local Setup (for Development or Contribution)](#local-setup-for-development-or-contribution)
+2. [Local Setup with Docker (Easy Setup for Demos)](#local-setup-with-docker-easy-setup-for-demos)
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **JDK**: Version 21.0.5
+- **Maven**: Version 3.9.6
+
+### Runtime Dependencies
+
+Ensure the following artifacts are available in the classpath or loader path:
+
+- `kernel-bio-converter.jar`
+
+### Configuration
+
+- Converters uses configuration files from the **[mosip-config repository](https://github.com/mosip/mosip-config/tree/master)**.
+- Key configuration files:
+    - [application-default.properties](https://github.com/mosip/mosip-config/blob/master/application-default.properties)
+
+## Installation
+
+### Local Setup (for Development or Contribution)
+
+1. Clone the repository:
+
+```text
+git clone https://github.com/mosip/converters.git
+cd converters
 ```
-3. Run the jar locally to use the module as a service:
 
-    ```java
-    $ java -Dloader.path=.
-    --add-modules=ALL-SYSTEM 
-    --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED 
-    --add-opens java.base/java.lang.reflect=ALL-UNNAMED 
-    --add-opens java.base/java.lang.stream=ALL-UNNAMED 
-    --add-opens java.base/java.time=ALL-UNNAMED
-    --add-opens java.base/java.time.LocalDate=ALL-UNNAMED 
-    --add-opens java.base/java.time.LocalDateTime=ALL-UNNAMED 
-    --add-opens java.base/java.time.LocalDateTime.date=ALL-UNNAMED 
-    --add-opens java.base/jdk.internal.reflect.DirectMethodHandleAccessor=ALL-UNNAMED  -jar target/{latestjarname}.jar.
-    ```
+2. Build and install:
+   Navigate to the project directory:
 
-Swagger url: [Swagger UI](http://localhost:8098/v1/converter-service/swagger-ui/index.html)
+```text
+cd kernel-bio-converter
+```
 
-4. To use the jar as library configure the module as below:
+3. Build the project:
+
+```text
+mvn install -DskipTests=true -Dgpg.skip=true
+```
+
+4. Run the jar locally to use the module as a service:
+
+```text
+java -Dloader.path=. \
+--add-modules=ALL-SYSTEM \
+--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED \
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED \
+--add-opens java.base/java.lang.stream=ALL-UNNAMED \
+--add-opens java.base/java.time=ALL-UNNAMED \
+--add-opens java.base/java.time.LocalDate=ALL-UNNAMED \
+--add-opens java.base/java.time.LocalDateTime=ALL-UNNAMED \
+--add-opens java.base/java.time.LocalDateTime.date=ALL-UNNAMED \
+--add-opens java.base/jdk.internal.reflect.DirectMethodHandleAccessor=ALL-UNNAMED \
+-jar target/kernel-bio-converter-*.jar
+```
+
+5. Verify Swagger is accessible at: `http://localhost:8098/v1/converter-service/swagger-ui/index.html`
+
+6. To use the jar as library configure the module as below:
 
 ```xml
-		<dependency>
-			<groupId>io.mosip.kernel</groupId>
-			<artifactId>kernel-bio-converter</artifactId>
-			<version>${kernel.bioconverter.version}</version>
-			<classifier>lib</classifier>
-		</dependency>
+<dependency>
+    <groupId>io.mosip.kernel</groupId>
+    <artifactId>kernel-bio-converter</artifactId>
+    <version>${kernel.bioconverter.version}</version>
+    <classifier>lib</classifier>
+</dependency>
 ```
 
-# Docker Instructions
-
-Follow these steps to build a Docker image for a specific service:
+### Local Setup with Docker (Easy Setup for Demos)
 
 1. Navigate to the service folder:
 
-Use the cd command to move to the directory containing the desired service's Dockerfile.
-
-```shell
-    $ cd <service folder>
+```text
+cd kernel-bio-converter
 ```
 
 2. Build the Docker image:
 
-```shell
-    $ docker build -t <image-name>:<tag> -f Dockerfile .
+```text
+docker build -t kernel-bio-converter:latest -f Dockerfile .
 ```
-        
-## APIs testing
 
-Refer to the below Url
+#### Verify Installation
 
-**Url**: http://{host}/v1/converter-service/convert
+Check that the container is running:
 
-Note: The above Url runs locally or any host environment setup
+```text
+docker ps
+```
 
-Method: POST
+## Deployment
 
-Refer below for API request structure:
+### Kubernetes
 
-## Request:
+To deploy Admin on Kubernetes cluster using Dockers refer to [Sandbox Deployment](https://docs.mosip.io/1.2.0/deploymentnew/v3-installation).
+
+## Documentation
+
+### API Documentation
+
+API endpoints and Swagger documentation are available at: `http://{host}/v1/converter-service/swagger-ui/index.html`
+
+### Usage
+
+**Url**: `http://{host}/v1/converter-service/convert`
+
+**Method**: POST
+
+**Request Structure**:
 
 ```json
 {
@@ -118,11 +175,7 @@ Refer below for API request structure:
 | targetFormat 			    | Http mime types, ISO formats                                                     |
 | targetParameters 		  | key-value pairs                                                                  |
 
-
-Refer below for API response structure:
-
-
-## Response:
+**Response Structure**:
 
 ```json
 {
@@ -147,8 +200,7 @@ Refer below for API response structure:
 | response     | key-value pairs, with base64 url encoded converted data                                    |
 
 
-## Error-codes:
-
+### Error Codes
 
 | **Code**     | **Description**                  	                                                         |
 | :----------- | :------------------------------------------------------------------------------------------ |
@@ -165,27 +217,12 @@ Refer below for API response structure:
 | MOS-CNV-011  | Target format not valid 																	                                   |
 | MOS-CNV-500  | Technical Error																				                                     |
 
-## Deployment in K8 cluster with other MOSIP services:
-### Pre-requisites
-* Set KUBECONFIG variable to point to existing K8 cluster kubeconfig file:
-   * ```
-        export KUBECONFIG=~/.kube/<my-cluster.config>
-     ```
-### Install
-  ```
-    $ cd deploy
-    $ ./install.sh
-   ```
-### Delete
-  ```
-    $ cd deploy
-    $ ./delete.sh
-   ```
-### Restart
-  ```
-    $ cd deploy
-    $ ./restart.sh
-   ```
+## Contribution & Community
+
+- To learn how you can contribute code to this application, [click here](https://docs.mosip.io/1.2.0/community/code-contributions).
+- If you have questions or encounter issues, visit the [MOSIP Community](https://community.mosip.io/) for support.
+- For any GitHub issues: [Report here](https://github.com/mosip/converters/issues)
 
 ## License
-This project is licensed under the terms of [Mozilla Public License 2.0](LICENSE).
+
+This project is licensed under the [Mozilla Public License 2.0](LICENSE).
