@@ -1,6 +1,6 @@
 # Converters
 [![Maven Package upon a push](https://github.com/mosip/converters/actions/workflows/push-trigger.yml/badge.svg?branch=release-1.3.x)](https://github.com/mosip/converters/actions/workflows/push-trigger.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_kernel-bio-converter&metric=alert_status&branch=release-1.3.x)](https://sonarcloud.io/dashboard?id=mosip_kernel-bio-converter&branch=release-1.3.x)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_kernel-bio-converter&metric=alert_status&branch=release-1.3.x&branch=release-1.3.x)
 
 ## Overview
 
