@@ -1,0 +1,75 @@
+MOSIP Project – Notices
+Copyright © 2022 
+Modular Open Source Identity Platform (MOSIP)
+
+This project contains third-party software components distributed under
+various open-source licenses. Attribution and license information for
+each included component is provided below. Full license texts are
+available in the LICENSES/ directory or from each component’s official
+source repository.
+
+---
+
+Third-party attributions:
+
+• Spring Boot, Spring Security & Spring Cloud  
+  (spring-boot-starter-web, spring-boot-starter-security,  
+   configuration-processor, spring-security-core/web/config/test,  
+   spring-cloud-starter-config, spring-boot-maven-plugin)  
+  Licensed under the Apache License 2.0.
+
+• SpringDoc OpenAPI  
+  (springdoc-openapi-starter-webmvc-ui)  
+  Licensed under the Apache License 2.0.
+
+• MOSIP Kernel Libraries  
+  (kernel-bom, kernel-core, kernel-auth-adapter, kernel-logger-logback)  
+  Licensed under the Mozilla Public License 2.0.
+
+• MOSIP Biometric Utilities  
+  (biometrics-util)  
+  Licensed under the Mozilla Public License 2.0.
+
+• Jackson XML Dataformat  
+  (jackson-dataformat-xml)  
+  Licensed under the Apache License 2.0.
+
+• Jakarta Servlet API  
+  Licensed under the Eclipse Public License 2.0.
+
+• Vert.x Core  
+  (vertx-core)  
+  Licensed under the Apache License 2.0.
+
+• JAI ImageIO – JPEG 2000  
+  (jai-imageio-jpeg2000)  
+  Licensed under the BSD 3-Clause No-Nuclear License.
+
+• Imgscalr  
+  (imgscalr-lib)  
+  Licensed under the Apache License 2.0.
+
+• Lombok  
+  (org.projectlombok:lombok)  
+  Licensed under the MIT License.
+
+• JUnit Vintage Engine  
+  Licensed under the Eclipse Public License 2.0.
+
+• Apache Maven Build Plugins  
+  (maven-compiler-plugin, maven-surefire-plugin,  
+   maven-gpg-plugin, maven-javadoc-plugin, maven-source-plugin)  
+  Licensed under the Apache License 2.0.
+
+• Central Publishing Maven Plugin  
+  Licensed under the Apache License 2.0.
+
+• Git Commit ID Maven Plugin  
+  Licensed under the GNU Lesser General Public License 3.0.
+
+---
+
+Additional open-source components may be included and are licensed under
+their respective compatible open-source licenses. For complete legal
+terms for each dependency, see the LICENSES/ directory or the original
+source repository.
