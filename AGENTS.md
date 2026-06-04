@@ -63,7 +63,7 @@ All HTTP interactions use MOSIP's `kernel-core` envelope types:
 `ConvertController` → `IConverterApi` → `ConverterServiceImpl`:
 
 1. Decode source format string → `SourceFormatCode` enum (throws `MOS-CNV-003` if unknown).
-2. Decode target format string → `TargetFormatCode` enum (throws `MOS-CNV-004` if unknown).
+2. Decode target format string → `TargetFormatCode` enum (throws `MOS-CNV-002` if unknown).
 3. For each entry in the `values` map:
    - URL-safe Base64-decode the ISO blob.
    - Pass to the matching `convert*IsoToImageType()` method based on source code.
