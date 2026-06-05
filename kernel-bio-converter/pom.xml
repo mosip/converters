@@ -80,6 +80,7 @@
 		<!-- Mosip kernel -->
 		<kernel.bom.version>1.4.0-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.4.0-SNAPSHOT</kernel.core.version>
+		
 		<kernel.auth.adapter.version>1.4.0-SNAPSHOT</kernel.auth.adapter.version>
 		<kernel.logger.logback.version>1.4.0-SNAPSHOT</kernel.logger.logback.version>
 		<mosip.biometrics.util.version>1.4.0-SNAPSHOT</mosip.biometrics.util.version>
