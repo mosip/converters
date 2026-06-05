@@ -1,7 +1,6 @@
 # Converters
 [![Maven Package upon a push](https://github.com/mosip/converters/actions/workflows/push-trigger.yml/badge.svg?branch=develop)](https://github.com/mosip/converters/actions/workflows/push-trigger.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mosip_kernel-bio-converter&metric=alert_status&branch=develop)](https://sonarcloud.io/dashboard?id=mosip_kernel-bio-converter&branch=develop)
-
 ## Overview
 
 The **Converters** is a MOSIP module that enables the conversion of ISO biometric and document data into standard image formats such as JPEG or PNG. The module exposes API endpoints for configuring and handling conversion operations.
@@ -62,7 +61,7 @@ cd converters
 ```
 
 2. Build and install:
-Navigate to the project directory:
+   Navigate to the project directory:
 
 ```text
 cd kernel-bio-converter

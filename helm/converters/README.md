@@ -8,5 +8,3 @@ Helm chart for installing converters module.
 $ helm repo add mosip https://mosip.github.io
 $ helm install my-release mosip/converters
 ```
-
-

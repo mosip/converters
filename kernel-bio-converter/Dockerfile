@@ -1,5 +1,4 @@
 FROM mosipid/openjdk-21-jre:21.0.4
-
 # label to be assigned along with  Docker build [Mandatory]
 ARG SOURCE
 ARG COMMIT_HASH
@@ -57,28 +56,18 @@ ARG container_user_gid=1001
 
 # set working directory for the user
 WORKDIR /home/${container_user}
-
 ENV work_dir=/home/${container_user}
-
 ARG loader_path=${work_dir}/additional_jars/
-
 ENV loader_path_env=${loader_path}
-
 ARG logging_level_root=INFO
-
 ENV logging_level_root_env=${logging_level_root}
 
 # set working directory for the user
 WORKDIR /home/${container_user}
-
 ENV work_dir=/home/${container_user}
-
 ARG loader_path=${work_dir}/additional_jars/
-
 ENV loader_path_env=${loader_path}
-
 ARG logging_level_root=INFO
-
 ENV logging_level_root_env=${logging_level_root}
 
 # install packages and create user
@@ -87,9 +76,7 @@ RUN apt-get update && \
     groupadd -g ${container_user_gid} ${container_user_group} && \
     useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/bash -m ${container_user} && \
     mkdir -p /home/${container_user} ${loader_path}
-
 ENV loader_path_env=${loader_path}
-
 COPY ./target/kernel-bio-converter-*.jar kernel-bio-converter.jar
 
 # change permissions of file inside working dir
@@ -97,7 +84,6 @@ RUN chown -R ${container_user}:${container_user} /home/${container_user}
 
 # select container user for all tasks
 USER ${container_user_uid}:${container_user_gid}
-
 EXPOSE 8079
 
 CMD java -XX:-UseG1GC -XX:-UseParallelGC -XX:-UseShenandoahGC -XX:+ExplicitGCInvokesConcurrent -XX:+UseZGC -XX:+ZGenerational -XX:+UnlockExperimentalVMOptions -XX:+UseStringDeduplication -XX:+HeapDumpOnOutOfMemoryError -XX:+UseCompressedOops -XX:MaxGCPauseMillis=200 -Dfile.encoding=UTF-8 -Dloader.path="${loader_path_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}"  --add-modules=ALL-SYSTEM --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.lang.stream=ALL-UNNAMED --add-opens java.base/java.time=ALL-UNNAMED --add-opens java.base/java.time.LocalDate=ALL-UNNAMED --add-opens java.base/java.time.LocalDateTime=ALL-UNNAMED --add-opens java.base/java.time.LocalDateTime.date=ALL-UNNAMED --add-opens java.base/jdk.internal.reflect.DirectMethodHandleAccessor=ALL-UNNAMED  -jar kernel-bio-converter.jar
