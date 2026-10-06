@@ -7,10 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.jnbis.api.model.Bitmap;
 import org.jnbis.internal.WsqDecoder;
 import org.springframework.stereotype.Service;
+
+import com.github.jaiimageio.jpeg2000.impl.J2KImageReaderSpi;
 
 import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
@@ -155,7 +159,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	        switch (compressionType) {
 	            case FingerImageCompressionType.JPEG_2000_LOSSY:
 	            case FingerImageCompressionType.JPEG_2000_LOSS_LESS:
-	                return ImageIO.read(new ByteArrayInputStream(imageData));
+	                return readJpeg2000(imageData);
 	            case FingerImageCompressionType.WSQ:
 	                WsqDecoder decoder = new WsqDecoder();
 	                Bitmap bitmap = decoder.decode(imageData);
@@ -224,7 +228,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	public BufferedImage decodeFaceImage(byte[] imageData, int imageDataType) throws ConversionException {
 	    try {
 	        if (imageDataType == ImageDataType.JPEG2000_LOSSY || imageDataType == ImageDataType.JPEG2000_LOSS_LESS) {
-	            return ImageIO.read(new ByteArrayInputStream(imageData));
+	            return readJpeg2000(imageData);
 	        } else {
 	            throw new ConversionException(ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
 	            		ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
@@ -289,7 +293,7 @@ public class ConverterServiceImpl implements IConverterApi {
 	public BufferedImage decodeIrisImage(byte[] imageData, int imageFormat) throws ConversionException {
 	    try {
 	        if (imageFormat == ImageFormat.MONO_JPEG2000) {
-	            return ImageIO.read(new ByteArrayInputStream(imageData));
+	            return readJpeg2000(imageData);
 	        } else {
 	            throw new ConversionException(ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorCode(),
 	            		ConverterErrorCode.NOT_SUPPORTED_COMPRESSION_TYPE.getErrorMessage());
@@ -300,6 +304,52 @@ public class ConverterServiceImpl implements IConverterApi {
 	    }
 	}
 	
+	/**
+	 * Reads JPEG2000 bytes into a {@link BufferedImage}.
+	 *
+	 * <p>
+	 * {@link ImageIO#read} returns {@code null} when no reader is registered,
+	 * which happens when the ImageIO registry was initialised before a nested
+	 * (Spring Boot fat JAR) class loader exposed the jai-imageio SPI. In that
+	 * case the registry is rescanned and, failing that, the JPEG2000 reader
+	 * is used directly.
+	 * </p>
+	 *
+	 * @param imageData JPEG2000 encoded bytes
+	 * @return decoded image, never {@code null}
+	 * @throws IOException         if the bytes cannot be read
+	 * @throws ConversionException if the bytes are not decodable JPEG2000
+	 */
+	public BufferedImage readJpeg2000(byte[] imageData) throws IOException {
+		BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageData));
+		if (image == null) {
+			ImageIO.scanForPlugins();
+			image = ImageIO.read(new ByteArrayInputStream(imageData));
+		}
+		if (image == null)
+			image = readWithJ2KReader(imageData);
+		if (image == null)
+			throw new ConversionException(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(),
+					ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorMessage()
+							+ ": no JPEG2000 reader could decode the image");
+		return image;
+	}
+
+	private static BufferedImage readWithJ2KReader(byte[] imageData) throws IOException {
+		J2KImageReaderSpi spi = new J2KImageReaderSpi();
+		try (ImageInputStream input = ImageIO.createImageInputStream(new ByteArrayInputStream(imageData))) {
+			if (input == null || !spi.canDecodeInput(input))
+				return null;
+			ImageReader reader = spi.createReaderInstance();
+			try {
+				reader.setInput(input, true, true);
+				return reader.read(0);
+			} finally {
+				reader.dispose();
+			}
+		}
+	}
+
 	/**
 	 * Encodes a {@link BufferedImage} to JPEG or PNG bytes for the given target.
 	 *
