@@ -173,4 +173,52 @@ class ConverterServiceImplTest {
 
         assertEquals(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(), exception.getErrorCode());
     }
+
+    private static byte[] sampleJpeg2000() throws IOException {
+        BufferedImage image = new BufferedImage(16, 16, BufferedImage.TYPE_BYTE_GRAY);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        assertTrue(ImageIO.write(image, "jpeg2000", out));
+        return out.toByteArray();
+    }
+
+    @Test
+    void readJpeg2000_validImage_returnsImage() throws Exception {
+        BufferedImage image = converterService.readJpeg2000(sampleJpeg2000());
+
+        assertEquals(16, image.getWidth());
+    }
+
+    @Test
+    void readJpeg2000_registryMissingReader_fallsBackToJ2KReader() throws Exception {
+        byte[] jp2 = sampleJpeg2000();
+        try (var imageIo = mockStatic(ImageIO.class, org.mockito.Mockito.CALLS_REAL_METHODS)) {
+            imageIo.when(() -> ImageIO.read(any(java.io.InputStream.class))).thenReturn(null);
+
+            BufferedImage image = converterService.decodeFingerImage(jp2, FingerImageCompressionType.JPEG_2000_LOSS_LESS);
+
+            assertEquals(16, image.getHeight());
+            byte[] png = converterService.convertBufferedImageToBytes(TargetFormatCode.IMAGE_PNG, image);
+            assertTrue(png.length > 0);
+        }
+    }
+
+    @Test
+    void readJpeg2000_undecodableBytes_throwsConversionException() {
+        byte[] garbage = "not-a-jpeg2000-image".getBytes(StandardCharsets.UTF_8);
+
+        ConversionException exception = assertThrows(ConversionException.class,
+            () -> converterService.decodeFaceImage(garbage, ImageDataType.JPEG2000_LOSSY));
+
+        assertEquals(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(), exception.getErrorCode());
+    }
+
+    @Test
+    void readJpeg2000_irisUndecodableBytes_throwsConversionException() {
+        byte[] garbage = new byte[] { 1, 2, 3, 4 };
+
+        ConversionException exception = assertThrows(ConversionException.class,
+            () -> converterService.decodeIrisImage(garbage, ImageFormat.MONO_JPEG2000));
+
+        assertEquals(ConverterErrorCode.COULD_NOT_READ_ISO_IMAGE_DATA_EXCEPTION.getErrorCode(), exception.getErrorCode());
+    }
 }
